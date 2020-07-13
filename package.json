@@ -6,6 +6,27 @@
   "repository": "git@github.com:dimaqq/kanji-sudoku-cra-styled-components.git",
   "author": "Dima Tisnek <dimaqq@gmail.com>",
   "license": "MIT",
+  "babel": {
+    "plugins": [
+      "babel-plugin-macros"
+    ],
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "loose": true,
+          "useBuiltIns": false,
+          "shippedProposals": true,
+          "debug": false
+        }
+      ]
+    ]
+  },
+  "babelMacros": {
+    "styledComponents": {
+      "pure": true
+    }
+  },
   "dependencies": {
     "immer": "^7.0.5",
     "in-browser-language": "^1.0.3",
@@ -34,8 +55,92 @@
     "ttag-cli": "^1.8.3",
     "webpack-bundle-analyzer": "^3.8.0"
   },
-    "resolutions": {
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "stats": "react-app-rewired build --stats",
+    "lint:css": "stylelint './src/**/*.js'",
+    "ttag-update": "for PO in int/*.po; do yarn run ttag update $PO src; done",
+    "ttag-json": "for PO in int/*.po; do X=${PO/#int/src/int}; DEST=${X/%po/json}; yarn run --silent ttag po2json --pretty $PO > tmp.json; mv tmp.json $DEST; done"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "env": {
+      "browser": true,
+      "es6": true,
+      "jest": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 2018,
+      "sourceType": "module"
+    },
+    "plugins": [
+      "react",
+      "react-hooks"
+    ],
+    "rules": {
+      "indent": [
+        "warn",
+        2
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "warn",
+        "double",
+        {
+          "allowTemplateLiterals": true
+        }
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "comma-dangle": [
+        "warn",
+        "always-multiline"
+      ],
+      "react-hooks/rules-of-hooks": "error",
+      "max-len": [
+        "warn",
+        120
+      ],
+      "no-mixed-operators": "off",
+      "object-curly-spacing": [
+        "warn",
+        "never"
+      ],
+      "template-curly-spacing": [
+        "warn",
+        "always"
+      ],
+      "no-template-curly-in-string": "warn"
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
+  },
+  "resolutions": {
     "chokidar": "^3.4.0",
     "kind-of": ">=6.0.3"
-  }
+  },
+  "browserslist": [
+    "last 1 Chrome versions",
+    "last 1 Safari versions",
+    "last 1 Firefox versions"
+  ],
+  "sideEffects": [
+    "./src/index.js"
+  ]
 }
