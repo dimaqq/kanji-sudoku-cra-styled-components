@@ -57,7 +57,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "env GIT_SHA=$(git rev-parse HEAD) react-app-rewired build",
     "stats": "react-app-rewired build --stats",
     "lint:css": "stylelint './src/**/*.js'",
     "ttag-update": "for PO in int/*.po; do yarn run ttag update $PO src; done",

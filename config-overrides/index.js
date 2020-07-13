@@ -2,7 +2,7 @@ const process = require("process");
 const immer = require("immer");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const stats = process.argv.includes("--stats");
-const revision = process.env.GIT_SHA1 || "local";
+const revision = process.env.GIT_SHA || "development";
 
 // https://github.com/immerjs/immer/issues/591
 immer.setAutoFreeze(false);
