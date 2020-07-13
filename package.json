@@ -6,6 +6,7 @@
   "repository": "git@github.com:dimaqq/kanji-sudoku-cra-styled-components.git",
   "author": "Dima Tisnek <dimaqq@gmail.com>",
   "license": "MIT",
+  "homepage": "/kanji-sudoku-cra-styled-components/build/",
   "babel": {
     "plugins": [
       "babel-plugin-macros"
