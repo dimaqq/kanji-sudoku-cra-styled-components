@@ -1,0 +1,41 @@
+{
+  "name": "kanji-sudoku-cra-styled-components",
+  "version": "1.0.0",
+  "description": "Kanji Sudoku redone using styled components",
+  "type": "module",
+  "repository": "git@github.com:dimaqq/kanji-sudoku-cra-styled-components.git",
+  "author": "Dima Tisnek <dimaqq@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "immer": "^7.0.5",
+    "in-browser-language": "^1.0.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-helmet-async": "^1.0.6",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "styled-components": "^5.1.1",
+    "tiny-invariant": "^1.1.0",
+    "ttag": "^1.7.22"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-macros": "^2.8.0",
+    "eslint": "^7.4.0",
+    "react-app-rewired": "^2.1.6",
+    "react-dev-utils": "^10.2.1",
+    "react-scripts": "^3.4.1",
+    "stylelint": "^13.6.1",
+    "stylelint-config-recommended": "^3.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.10.0",
+    "ttag-cli": "^1.8.3",
+    "webpack-bundle-analyzer": "^3.8.0"
+  },
+    "resolutions": {
+    "chokidar": "^3.4.0",
+    "kind-of": ">=6.0.3"
+  }
+}
