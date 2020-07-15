@@ -1,9 +1,15 @@
 import React from "react";
 import styled from "styled-components/macro";
+import reading from "reading.json";
+import easy from "easy.json";
+import kanji from "kanji.json";
 
 const Game = () => {
+  void(reading);
+  void(easy);
+  void(kanji);
   return <Area>
-    "game"
+    game
   </Area>;
 };
 

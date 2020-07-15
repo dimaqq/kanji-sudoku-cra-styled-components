@@ -6,8 +6,8 @@ const Help = () => {
   return <Area>
     <Heading onClick={() => show(!shown)}>
       "Help"
-      {shown?<Content>content</Content>:null}
     </Heading>
+      {shown?<Content>content</Content>:null}
   </Area>;
 };
 

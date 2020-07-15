@@ -3,7 +3,7 @@ import styled from "styled-components/macro";
 
 const Settings = () => {
   return <Area>
-    "Settings"
+    Settings
   </Area>;
 };
 
