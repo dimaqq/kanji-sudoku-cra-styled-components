@@ -10,6 +10,6 @@ const Settings = () => {
 export default Settings;
 
 const Area = styled.div`
-  flex: none;
+  flex: 0 0 10vmin;
   outline: 1px dashed red;
 `;
