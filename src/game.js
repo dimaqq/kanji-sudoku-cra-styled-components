@@ -12,6 +12,7 @@ const Game = () => {
     <Info>info</Info>;
     <Area>
       {[...new Array(9*9)].map((_, i) => <Nib key={i}>{i}</Nib>)}
+      <Glass><Zoom><Canvas/></Zoom></Glass>
     </Area>
   </>;
 };
@@ -23,6 +24,7 @@ const Info = styled.div`
 `;
 
 const Area = styled.div`
+  position: relative;
   flex: 0 0 100vmin;
   outline: 1px dashed orange;
   display: grid;
@@ -32,10 +34,39 @@ const Area = styled.div`
 const Nib = styled.div`
   text-align: center;
   line-height: 10vmin;
-  border-top: 1px solid rgba(0,0,0,.3);
-  border-left: 1px solid rgba(0,0,0,.3);
-  &:nth-child(9n) { border-bottom: 1px solid black; }
-  &:nth-child(n+73) { border-right: 1px solid black; }
-  &:nth-child(3n+1) { border-top: 1px solid black; }
-  &:nth-child(-n+9), &:nth-child(n+28):nth-child(-n+36), &:nth-child(n+55):nth-child(-n+63) { border-left: 1px solid black; }
+  box-sizing: border-box;
+  border-top: 0.3vmin solid rgba(0,0,0,.3);
+  border-left: 0.3vmin solid rgba(0,0,0,.3);
+  &:nth-child(9n) { border-bottom: 0.3vmin solid black; }
+  &:nth-child(n+73) { border-right: 0.3vmin solid black; }
+  &:nth-child(3n+1) { border-top: 0.3vmin solid black; }
+  &:nth-child(-n+9),
+  &:nth-child(n+28):nth-child(-n+36),
+  &:nth-child(n+55):nth-child(-n+63) { border-left: 0.3vmin solid black; }
+`;
+
+const Glass = styled.div`
+  position: absolute;
+  top: 0;
+  width: 90vmin;
+  height: 90vmin;
+  backdrop-filter: blur(1px);  /* except firefox :( */
+  box-sizing: border-box;
+  display: flex;
+`;
+
+const Zoom = styled.div`
+  margin: auto;
+  height: 60vmin;
+  width: 60vmin;
+  background-color: white;
+  box-sizing: border-box;
+  box-shadow: #aaa 0 0 10vmin;
+  border-radius: 0.5vmin;
+  padding: 0.5vmin;
+  display: flex;
+`;
+
+const Canvas = styled.canvas`
+  flex: auto;
 `;
