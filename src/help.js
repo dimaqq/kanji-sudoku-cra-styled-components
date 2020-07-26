@@ -23,8 +23,6 @@ const Heading = styled.div`
   position: relative;
 `;
 
-// FIXME 100vw requires global style to remove default margins and/or padding
-
 const Content = styled.div`
   position: absolute;
   top: 3vmin;
