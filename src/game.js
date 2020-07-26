@@ -3,6 +3,7 @@ import styled from "styled-components/macro";
 import reading from "reading.json";
 import easy from "easy.json";
 import kanji from "kanji.json";
+import Canvas from "draw";
 
 const Game = () => {
   void(reading);
@@ -65,8 +66,4 @@ const Zoom = styled.div`
   border-radius: 0.5vmin;
   padding: 0.5vmin;
   display: flex;
-`;
-
-const Canvas = styled.canvas`
-  flex: auto;
 `;

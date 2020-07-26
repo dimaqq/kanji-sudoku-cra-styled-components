@@ -38,7 +38,8 @@
     "redux": "^4.0.5",
     "styled-components": "^5.1.1",
     "tiny-invariant": "^1.1.0",
-    "ttag": "^1.7.22"
+    "ttag": "^1.7.22",
+    "ulog": "^2.0.0-beta.7"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
