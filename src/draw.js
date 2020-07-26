@@ -6,13 +6,6 @@ const SIZE = 100;
 
 const Canvas = () => {
   const ref = useRef();
-  const click = event => {
-    const canvas = ref.current;
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "green";
-    ctx.fillRect(10, 10, 15, 15);
-    log.debug(event);
-  };
 
   const down = event => {
     st.drawing = true;
@@ -21,14 +14,16 @@ const Canvas = () => {
   };
 
   const move = event => {
-    const x = event.offsetX * st.scale;
-    const y = event.offsetY * st.scale;
-    const canvas = ref.current;
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "green";
-    ctx.fillRect(st.x, st.y, x, y);
-    st.x = x;
-    st.y = y;
+    if (st.drawing) {
+      const x = event.offsetX * st.scale;
+      const y = event.offsetY * st.scale;
+      const canvas = ref.current;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "green";
+      ctx.fillRect(x, y, 3, 3);
+      st.x = x;
+      st.y = y;
+    }
   };
 
   const up = event => {
@@ -54,7 +49,7 @@ const Canvas = () => {
       st.drawing = false;
     };
   }, [move]);
-  return <Canvase width={SIZE} height={SIZE} ref={ref} onClick={click}/>;
+  return <Canvase width={SIZE} height={SIZE} ref={ref}/>;
 };
 
 export default Canvas;
