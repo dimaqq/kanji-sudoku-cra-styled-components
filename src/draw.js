@@ -9,14 +9,22 @@ const Canvas = () => {
 
   const down = event => {
     st.drawing = true;
-    st.x = event.offsetX * st.scale;
-    st.y = event.offsetY * st.scale;
+    //st.x = event.offsetX * st.scale;
+    //st.y = event.offsetY * st.scale;
+    log.debug(event);
   };
 
   const move = event => {
     if (st.drawing) {
-      const x = event.offsetX * st.scale;
-      const y = event.offsetY * st.scale;
+      let x, y;
+      if (event.touches) {
+        x = (event.touches[0].pageX - event.touches[0].target.offsetLeft) * st.scale;
+        y = (event.touches[0].pageY - event.touches[0].target.offsetTop) * st.scale;
+      }
+      else {
+        x = event.offsetX * st.scale;
+        y = event.offsetY * st.scale;
+      }
       const canvas = ref.current;
       const ctx = canvas.getContext("2d");
       ctx.fillStyle = "green";
@@ -36,12 +44,18 @@ const Canvas = () => {
     if (canvas) {
       const r = canvas.getBoundingClientRect();
       st.scale = SIZE / r.width;
+      canvas.addEventListener("touchstart", down);
+      canvas.addEventListener("touchmove", move);
+      canvas.addEventListener("touchend", up);
       canvas.addEventListener("mousedown", down);
       canvas.addEventListener("mousemove", move);
       canvas.addEventListener("mouseup", up);
     }
     return () => {
       if (canvas) {
+        canvas.removeEventListener("touchstart", down);
+        canvas.removeEventListener("touchmove", move);
+        canvas.removeEventListener("touchend", up);
         canvas.removeEventListener("mousedown", down);
         canvas.removeEventListener("mousemove", move);
         canvas.removeEventListener("mouseup", up);
