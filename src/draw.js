@@ -1,7 +1,8 @@
-import React, {useRef, useEffect} from "react";
+import React, {useRef, useLayoutEffect} from "react";
 import styled from "styled-components/macro";
+import {filename} from "paths.macro";
 import ulog from "ulog";
-const log = ulog("draw");
+const log = ulog(filename);  // eslint-disable-line no-unused-vars
 const SIZE = 100;
 
 const Canvas = () => {
@@ -39,7 +40,7 @@ const Canvas = () => {
     log.debug("up", event);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const canvas = ref.current;
     if (canvas) {
       const r = canvas.getBoundingClientRect();

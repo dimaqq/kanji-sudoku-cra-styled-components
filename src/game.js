@@ -1,9 +1,13 @@
 import React from "react";
 import styled from "styled-components/macro";
+import PropTypes from "prop-types";
+import {filename} from "paths.macro";
 import reading from "reading.json";
 import easy from "easy.json";
 import kanji from "kanji.json";
 import Canvas from "draw";
+import ulog from "ulog";
+const log = ulog(filename);  // eslint-disable-line no-unused-vars
 
 const Game = () => {
   void(reading);
@@ -12,13 +16,19 @@ const Game = () => {
   return <>
     <Info>info</Info>;
     <Area>
-      {[...new Array(9*9)].map((_, i) => <Nib key={i}>{i}</Nib>)}
+      {[...new Array(9*9)].map((_, i) => <Cell key={i} id={i}/>)}
       <Glass><Zoom><Canvas/></Zoom></Glass>
     </Area>
   </>;
 };
 
 export default Game;
+
+const Cell = ({id}) => {
+  return <Nib>{id}</Nib>;
+};
+
+Cell.propTypes = {id: PropTypes.number.isRequired};
 
 const Info = styled.div`
   flex: 0 0 40vmin;
