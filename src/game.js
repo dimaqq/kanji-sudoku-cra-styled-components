@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components/macro";
 import PropTypes from "prop-types";
 import {filename} from "paths.macro";
+import ulog from "ulog";
 import reading from "reading.json";
 import easy from "easy.json";
 import kanji from "kanji.json";
 import Canvas from "draw";
-import ulog from "ulog";
 const log = ulog(filename);  // eslint-disable-line no-unused-vars
 
 const Game = () => {
