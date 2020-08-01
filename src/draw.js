@@ -14,27 +14,6 @@ const Canvas = () => {
     //st.y = event.offsetY * st.scale;
     log.debug(event);
   };
-
-  const move = event => {
-    if (st.drawing) {
-      let x, y;
-      if (event.touches) {
-        x = (event.touches[0].pageX - event.touches[0].target.offsetLeft) * st.scale;
-        y = (event.touches[0].pageY - event.touches[0].target.offsetTop) * st.scale;
-      }
-      else {
-        x = event.offsetX * st.scale;
-        y = event.offsetY * st.scale;
-      }
-      const canvas = ref.current;
-      const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "green";
-      ctx.fillRect(x, y, 3, 3);
-      st.x = x;
-      st.y = y;
-    }
-  };
-
   const up = event => {
     st.drawing = false;
     log.debug("up", event);
@@ -42,6 +21,7 @@ const Canvas = () => {
 
   useLayoutEffect(() => {
     const canvas = ref.current;
+    const move = e => movezz(e, ref);
     if (canvas) {
       const r = canvas.getBoundingClientRect();
       st.scale = SIZE / r.width;
@@ -63,11 +43,33 @@ const Canvas = () => {
       }
       st.drawing = false;
     };
-  }, [move]);
+  }, [movezz, ref]);
   return <Canvase width={SIZE} height={SIZE} ref={ref}/>;
 };
 
 export default Canvas;
+
+const movezz = (event, ref) => {
+  if (st.drawing) {
+    let x, y;
+    if (event.touches) {
+      const t = event.touches[0];
+      x = (t.pageX - t.target.offsetLeft) * st.scale;
+      y = (t.pageY - t.target.offsetTop) * st.scale;
+    }
+    else {
+      x = event.offsetX * st.scale;
+      y = event.offsetY * st.scale;
+    }
+    const canvas = ref.current;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "green";
+    ctx.fillRect(x, y, 3, 3);
+    st.x = x;
+    st.y = y;
+  }
+};
+
 
 const st = {
   drawing: false,

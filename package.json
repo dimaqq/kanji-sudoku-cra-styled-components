@@ -149,5 +149,73 @@
   ],
   "sideEffects": [
     "./src/index.js"
-  ]
+  ],
+  "eslintConfig": {
+    "parser": "babel-eslint",
+        "env": {
+      "browser": true,
+      "es6": true,
+      "jest": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 2018,
+      "sourceType": "module"
+    },
+    "plugins": [
+      "react",
+      "react-hooks"
+    ],
+    "rules": {
+      "indent": [
+        "warn",
+        2
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "warn",
+        "double",
+        {
+          "allowTemplateLiterals": true
+        }
+      ],
+      "semi": [
+        "error",
+        "always"
+      ],
+      "comma-dangle": [
+        "warn",
+        "always-multiline"
+      ],
+      "react-hooks/rules-of-hooks": "error",
+      "max-len": [
+        "warn",
+        120
+      ],
+      "no-mixed-operators": "off",
+      "object-curly-spacing": [
+        "warn",
+        "never"
+      ],
+      "template-curly-spacing": [
+        "warn",
+        "always"
+      ],
+      "no-template-curly-in-string": "warn"
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
+  }
 }
