@@ -1,4 +1,5 @@
 import React from "react";
+import {useSelector, useDispatch} from "react-redux";
 import styled from "styled-components/macro";
 import PropTypes from "prop-types";
 import {filename} from "paths.macro";
@@ -10,6 +11,7 @@ import Canvas from "draw";
 const log = ulog(filename);  // eslint-disable-line no-unused-vars
 
 const Game = () => {
+  const editing = useSelector(state => state.game.bar);
   void(reading);
   void(easy);
   void(kanji);
@@ -17,7 +19,7 @@ const Game = () => {
     <Info>info</Info>;
     <Area>
       {[...new Array(9*9)].map((_, i) => <Cell key={i} id={i}/>)}
-      <Glass><Zoom><Canvas/></Zoom></Glass>
+      {editing?<Glass><Zoom><Canvas/></Zoom></Glass>:null}
     </Area>
   </>;
 };
@@ -25,7 +27,13 @@ const Game = () => {
 export default Game;
 
 const Cell = ({id}) => {
-  return <Nib>{id}</Nib>;
+  // Either a single Kanji (prefilled cell, selected by computer),
+  // or a data URI (empty cell edited by user) or undefined (not edited)
+  const value = useSelector(state => state.game.tiles[id]);
+  const dispatch = useDispatch();
+  const editable = !value || value.length > 1;
+  const edit = editable && (() => dispatch({type: "GAME.EDIT", id}));
+  return <Nib onClick={edit}>{editable?<img src={value} alt=""/>:value}</Nib>;
 };
 
 Cell.propTypes = {id: PropTypes.number.isRequired};

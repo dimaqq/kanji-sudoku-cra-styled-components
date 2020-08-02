@@ -3,7 +3,7 @@ import styled from "styled-components/macro";
 import {filename} from "paths.macro";
 import ulog from "ulog";
 const log = ulog(filename);  // eslint-disable-line no-unused-vars
-const SIZE = 100;
+const SIZE = 1000;
 
 const Canvas = () => {
   const ref = useRef();
@@ -22,16 +22,15 @@ const Canvas = () => {
   useLayoutEffect(() => {
     const canvas = ref.current;
     const move = e => movezz(e, ref);
-    if (canvas) {
-      const r = canvas.getBoundingClientRect();
-      st.scale = SIZE / r.width;
-      canvas.addEventListener("touchstart", down);
-      canvas.addEventListener("touchmove", move);
-      canvas.addEventListener("touchend", up);
-      canvas.addEventListener("mousedown", down);
-      canvas.addEventListener("mousemove", move);
-      canvas.addEventListener("mouseup", up);
-    }
+    const r = canvas.getBoundingClientRect();
+    st.scale = SIZE / r.width;
+    canvas.addEventListener("touchstart", down);
+    canvas.addEventListener("touchmove", move);
+    canvas.addEventListener("touchend", up);
+    canvas.addEventListener("mousedown", down);
+    canvas.addEventListener("mousemove", move);
+    canvas.addEventListener("mouseup", up);
+
     return () => {
       if (canvas) {
         canvas.removeEventListener("touchstart", down);
@@ -43,7 +42,7 @@ const Canvas = () => {
       }
       st.drawing = false;
     };
-  }, [movezz, ref]);
+  }, [ref]);
   return <Canvase width={SIZE} height={SIZE} ref={ref}/>;
 };
 

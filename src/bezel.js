@@ -1,17 +1,21 @@
 import React from "react";
+import {Provider} from "react-redux";
 import {Reset} from "styled-reset";
 import styled from "styled-components/macro";
 import Settings from "settings";
 import Help from "help";
 import Game from "game";
+import store from "store";
 
 const Bezel = () => {
-  return <Frame>
-    <Reset/>
-    <Settings/>
-    <Help/>
-    <Game/>
-  </Frame>;
+  return <Provider store={store}>
+    <Frame>
+      <Reset/>
+      <Settings/>
+      <Help/>
+      <Game/>
+    </Frame>
+  </Provider>;
 };
 
 export default Bezel;
