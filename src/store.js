@@ -8,6 +8,8 @@ const log = ulog(filename);
 const tools = window?.__REDUX_DEVTOOLS_EXTENSION__?.();
 
 const INITIAL = {
+  grade: undefined,
+  difficulty: undefined,
   glyphs: [...new Array(9)],
   sudoku: [...new Array(9*9)],
   editing: undefined,
@@ -15,18 +17,20 @@ const INITIAL = {
 };
 
 const reducer = (state=INITIAL, action) => produce(state, draft => {
-  log.debug(action);
-  switch (action) {
-  case "SETTINGS.DIFFICULTY":
-    draft.sudoku = sudoku_board().join("").map(d => d === "."?undefined:parseInt(d)-1);
+  log.warn(action);
+  switch (action.type) {
+  case "DIFFICULTY":
+    draft.difficulty = action.difficulty;
+    draft.sudoku = sudoku_board(draft.difficulty);
     return;
-  case "SETTINGS.GRADE":
-    draft.yy = 42;
+  case "GRADE":
+    draft.grade = action.grade;
+    draft.sudoku = sudoku_board(draft.difficulty);
     return;
-  case "GAME.EDIT":
+  case "EDIT":
     draft.editing = action.id;
     return;
-  case "GAME.SAVE_TILE":
+  case "SAVE_TILE":
     draft.tiles[action.id] = action.data;
     return;
   default:
@@ -36,4 +40,10 @@ const reducer = (state=INITIAL, action) => produce(state, draft => {
 
 export default createStore(reducer, tools);
 
-const sudoku_board = () => sudokus[Math.floor(Math.random() * sudokus.length)];
+const sudoku_board = (difficulty) => {
+  void(difficulty);
+  const s = sudokus[Math.floor(Math.random() * sudokus.length)];
+  // FIXME perhaps edit the sudoku JSON file instead
+  // ["..1", ".2.", ...] → [und, und, 0, und, 1, und, ...]
+  return [...s.join("")].map(d => d === "."?undefined:parseInt(d)-1);
+};

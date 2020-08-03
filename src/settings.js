@@ -9,21 +9,33 @@ const log = ulog(filename);  // eslint-disable-line no-unused-vars
 
 const Settings = () => {
   const dispatch = useDispatch();
-  const grade = useSelector(state => state.grade);
-  const difficulty = useSelector(state => state.difficulty);
+  const current_grade = useSelector(state => state.grade);
+  const current_difficulty = useSelector(state => state.difficulty);
   return <Area>
     <Row>
       <Title>Kanji grade:</Title>
       <Buttons>{
-        Object.keys(kanji).map(k => 
-          <Button role="button" selected={k === grade} key={k} onClick={() => log.info(k)}>{k}</Button>)
+        Object.keys(kanji).map(grade => 
+          <Button
+            role="button"
+            selected={grade === current_grade}
+            key={grade}
+            onClick={() => dispatch({type: "GRADE", grade})}>
+            {grade}
+          </Button>)
       }</Buttons>
     </Row>
     <Row>
       <Title>Sudoku difficulty:</Title>
       <Buttons>{
-        ["easy", "medium", "hard"].map(k =>
-          <Button role="button" selected={k === difficulty} key={k} onClick={() => log.info(k)}>{k}</Button>)
+        ["easy", "medium", "hard"].map(difficulty =>
+          <Button
+            role="button"
+            selected={difficulty === current_difficulty}
+            key={difficulty}
+            onClick={() => dispatch({type: "DIFFICULTY", difficulty})}>
+            {difficulty}
+          </Button>)
       }</Buttons>
       <Like/>
     </Row>
