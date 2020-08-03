@@ -3,7 +3,7 @@ import {Provider} from "react-redux";
 import {Reset} from "styled-reset";
 import styled from "styled-components/macro";
 import Settings from "settings";
-import Help from "help";
+import Dictionary from "dictionary";
 import Game from "game";
 import store from "store";
 
@@ -12,7 +12,7 @@ const Bezel = () => {
     <Frame>
       <Reset/>
       <Settings/>
-      <Help/>
+      <Dictionary/>
       <Game/>
     </Frame>
   </Provider>;
@@ -20,7 +20,10 @@ const Bezel = () => {
 
 export default Bezel;
 
+// Below is for portrait mode; figure out landscape mode.
 const Frame = styled.div`
   display: flex;
   flex-direction: column;
+  width: 75vmin;
+  margin: auto;
 `;
