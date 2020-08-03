@@ -3,7 +3,7 @@ import {produce} from "immer";
 import {filename} from "paths.macro";
 import sudokus from "easy.json";
 import ulog from "ulog";
-const log = ulog(filename);
+const log = ulog(filename);  // eslint-disable-line no-unused-vars
 
 const tools = window?.__REDUX_DEVTOOLS_EXTENSION__?.();
 
@@ -17,7 +17,6 @@ const INITIAL = {
 };
 
 const reducer = (state=INITIAL, action) => produce(state, draft => {
-  log.warn(action);
   switch (action.type) {
   case "DIFFICULTY":
     draft.difficulty = action.difficulty;
