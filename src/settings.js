@@ -1,4 +1,5 @@
 import React from "react";
+import {useSelector, useDispatch} from "react-redux";
 import styled from "styled-components/macro";
 import {filename} from "paths.macro";
 import ulog from "ulog";
@@ -7,19 +8,22 @@ import Like from "like";
 const log = ulog(filename);  // eslint-disable-line no-unused-vars
 
 const Settings = () => {
+  const dispatch = useDispatch();
+  const grade = useSelector(state => state.grade);
+  const difficulty = useSelector(state => state.difficulty);
   return <Area>
     <Row>
       <Title>Kanji grade:</Title>
       <Buttons>{
         Object.keys(kanji).map(k => 
-          <Button role="button" key={k} onClick={() => log.info(k)}>{k}</Button>)
+          <Button role="button" selected={k === grade} key={k} onClick={() => log.info(k)}>{k}</Button>)
       }</Buttons>
     </Row>
     <Row>
       <Title>Sudoku difficulty:</Title>
       <Buttons>{
         ["easy", "medium", "hard"].map(k =>
-          <Button role="button" key={k} onClick={() => log.info(k)}>{k}</Button>)
+          <Button role="button" selected={k === difficulty} key={k} onClick={() => log.info(k)}>{k}</Button>)
       }</Buttons>
       <Like/>
     </Row>
@@ -59,6 +63,7 @@ const Button = styled.div`
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   cursor: pointer;
+  background-color: ${ props => props.selected?"gold":"white" };
   &:hover {
     background-color: rgba(255,0,0,.1);
   }

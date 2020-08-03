@@ -11,7 +11,7 @@ import Canvas from "draw";
 const log = ulog(filename);  // eslint-disable-line no-unused-vars
 
 const Game = () => {
-  const editing = useSelector(state => state.game.bar);
+  const editing = useSelector(state => state.editing);
   void(reading);
   void(easy);
   void(kanji);
@@ -29,7 +29,7 @@ export default Game;
 const Cell = ({id}) => {
   // Either a single Kanji (prefilled cell, selected by computer),
   // or a data URI (empty cell edited by user) or undefined (not edited)
-  const value = useSelector(state => state.game.tiles[id]);
+  const value = useSelector(state => state.tiles[id]);
   const dispatch = useDispatch();
   const editable = !value || value.length > 1;
   const edit = editable && (() => dispatch({type: "GAME.EDIT", id}));
