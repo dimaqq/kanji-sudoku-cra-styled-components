@@ -1,16 +1,25 @@
 import {createStore, combineReducers} from "redux";
 import {produce} from "immer";
 import {filename} from "paths.macro";
+import sudokus from "easy.json";
 import ulog from "ulog";
 const log = ulog(filename);
 
 const tools = window?.__REDUX_DEVTOOLS_EXTENSION__?.();
 
-const settings = (state={}, action) => produce(state, draft => {
+const SETTINGS_INITIAL = {
+  glyphs: [...new Array(9)],
+  sudoku: [...new Array(9*9)],
+};
+
+const settings = (state=SETTINGS_INITIAL, action) => produce(state, draft => {
   log.debug(action);
   switch (action) {
-  case "FOOBAR":
-    draft.xx = 42;
+  case "SETTINGS.DIFFICULTY":
+    draft.sudoku = sudoku_board().join("").map(d => d === "."?undefined:parseInt(d)-1);
+    return;
+  case "SETTINGS.GRADE":
+    draft.yy = 42;
     return;
   default:
     return;
@@ -41,3 +50,5 @@ const reducers = (state, action) => combineReducers({
 })(state, action);
 
 export default createStore(reducers, tools);
+
+const sudoku_board = () => sudokus[Math.floor(Math.random() * sudokus.length)];

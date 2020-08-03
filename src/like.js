@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components/macro";
 
-const Like = () => <A href="https://forms.gle/v6s3mCoHyfndDqxJA">👍 ∕ 👎</A>;
+const Like = () => <A href="https://forms.gle/v6s3mCoHyfndDqxJA" target="_blank">
+  <span role="img" aria-label="like">👍</span> ∕ <span role="img" aria-label="dislike">👎</span></A>;
 
 export default Like;
 

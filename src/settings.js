@@ -29,7 +29,7 @@ const Settings = () => {
 export default Settings;
 
 const Area = styled.div`
-  flex: 0 0 10vmin;
+  flex: none;
   display: flex;
   flex-direction: column;
 `;
@@ -37,7 +37,7 @@ const Area = styled.div`
 const Row = styled.div`
   flex: none;
   display: flex;
-  margin: 1em 0;
+  margin: .5em 0;
   font-size: 2vmin;
   font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 `;

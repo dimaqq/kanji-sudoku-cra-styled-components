@@ -27,6 +27,7 @@ const Table = styled.div`
   background-color: rgba(0,0,0,.3);
   box-sizing: border-box;
   border: 1px solid black;
+  margin: 1vmin 0;
 `;
 
 const Cell = styled.div`
@@ -35,8 +36,8 @@ const Cell = styled.div`
   grid-template-columns: 1fr 3fr;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas:
-    "stroke reading-x"
-    "stroke reading-y"
+    "stroke reading-kun"
+    "stroke reading-on"
     "stroke .";
 `;
 
