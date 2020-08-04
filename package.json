@@ -46,7 +46,6 @@
   "devDependencies": {
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
-    "babel-eslint": "^10.1.0",
     "babel-plugin-macros": "^2.8.0",
     "eslint": "^7.4.0",
     "eslint-plugin-react": "^7.20.3",
@@ -71,7 +70,6 @@
     "ttag-json": "for PO in int/*.po; do X=${PO/#int/src/int}; DEST=${X/%po/json}; yarn run --silent ttag po2json --pretty $PO > tmp.json; mv tmp.json $DEST; done"
   },
   "eslintConfig": {
-    "parser": "babel-eslint",
     "env": {
       "browser": true,
       "es6": true,
@@ -85,7 +83,7 @@
       "ecmaFeatures": {
         "jsx": true
       },
-      "ecmaVersion": 2018,
+      "ecmaVersion": 2020,
       "sourceType": "module"
     },
     "plugins": [
