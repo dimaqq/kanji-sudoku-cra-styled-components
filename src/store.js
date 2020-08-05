@@ -2,6 +2,7 @@ import {createStore} from "redux";
 import {produce} from "immer";
 import {filename} from "paths.macro";
 import sudokus from "easy.json";
+import kanji from "kanji.json";
 import ulog from "ulog";
 const log = ulog(filename);  // eslint-disable-line no-unused-vars
 
@@ -16,28 +17,37 @@ const INITIAL = {
   tiles: [...new Array(9*9)],  // either a single Kanji or a data URI
 };
 
-const reducer = (state=INITIAL, action) => produce(state, draft => {
-  switch (action.type) {
-  case "DIFFICULTY":
-    draft.difficulty = action.difficulty;
-    draft.sudoku = sudoku_board(draft.difficulty);
-    return;
-  case "GRADE":
-    draft.grade = action.grade;
-    draft.sudoku = sudoku_board(draft.difficulty);
-    return;
-  case "EDIT":
-    draft.editing = action.id;
-    return;
-  case "SAVE_TILE":
-    draft.tiles[action.id] = action.data;
-    return;
-  default:
-    return;
+const reducer = (state=undefined, action) => {
+  if (state === undefined) {
+    state = INITIAL;
+    state.grade = "1";
+    state.difficulty = "easy";
+    state.glyphs = sample(kanji[state.grade]);
+    state.sudoku = sudoku_board(state.difficulty);
   }
-});
-
-export default createStore(reducer, tools);
+  return produce(state, draft => {
+    switch (action.type) {
+    case "DIFFICULTY":
+      draft.difficulty = action.difficulty;
+      draft.glyphs = sample(kanji[draft.grade]);
+      draft.sudoku = sudoku_board(draft.difficulty);
+      return;
+    case "GRADE":
+      draft.grade = action.grade;
+      draft.glyphs = sample(kanji[draft.grade]);
+      draft.sudoku = sudoku_board(draft.difficulty);
+      return;
+    case "EDIT":
+      draft.editing = action.id;
+      return;
+    case "SAVE_TILE":
+      draft.tiles[action.id] = action.data;
+      return;
+    default:
+      return;
+    }
+  });
+};
 
 const sudoku_board = (difficulty) => {
   void(difficulty);
@@ -46,3 +56,15 @@ const sudoku_board = (difficulty) => {
   // ["..1", ".2.", ...] → [und, und, 0, und, 1, und, ...]
   return [...s.join("")].map(d => d === "."?undefined:parseInt(d)-1);
 };
+
+const sample = (text, n=9) => {
+  const pool = [...text];
+  const rand = () => {
+    const id = Math.floor(Math.random() * pool.length);
+    return pool.splice(id, 1)[0];  // without replacement
+  };
+
+  return [...Array(n)].map(() => rand());
+};
+
+export default createStore(reducer, tools);
