@@ -7,19 +7,15 @@ import ulog from "ulog";
 import reading from "reading.json";
 import easy from "easy.json";
 import kanji from "kanji.json";
-import Canvas from "draw";
 const log = ulog(filename);  // eslint-disable-line no-unused-vars
 
 const Game = () => {
-  const editing = useSelector(state => state.editing);
   void(reading);
   void(easy);
   void(kanji);
   return <>
-    <Info>info</Info>;
     <Area>
       {[...new Array(9*9)].map((_, i) => <Cell key={i} id={i}/>)}
-      {editing?<Glass><Zoom><Canvas/></Zoom></Glass>:null}
     </Area>
   </>;
 };
@@ -32,19 +28,15 @@ const Cell = ({id}) => {
   const value = useSelector(state => state.tiles[id]);
   const dispatch = useDispatch();
   const editable = !value || value.length > 1;
-  const edit = editable && (() => dispatch({type: "GAME.EDIT", id}));
+  const edit = editable && (() => dispatch({type: "EDIT", id}));
   return <Nib onClick={edit}>{editable?<img src={value} alt=""/>:value}</Nib>;
 };
 
 Cell.propTypes = {id: PropTypes.number.isRequired};
 
-const Info = styled.div`
-  flex: 0 0 40vmin;
-`;
-
 const Area = styled.div`
   position: relative;
-  flex: 0 0 100vmin;
+  flex: auto;
   outline: 1px dashed orange;
   display: grid;
   grid: repeat(9, 10vmin) / auto-flow 10vmin;
@@ -62,26 +54,4 @@ const Nib = styled.div`
   &:nth-child(-n+9),
   &:nth-child(n+28):nth-child(-n+36),
   &:nth-child(n+55):nth-child(-n+63) { border-left: 0.3vmin solid black; }
-`;
-
-const Glass = styled.div`
-  position: absolute;
-  top: 0;
-  width: 90vmin;
-  height: 90vmin;
-  backdrop-filter: blur(1px);  /* except firefox :( */
-  box-sizing: border-box;
-  display: flex;
-`;
-
-const Zoom = styled.div`
-  margin: auto;
-  height: 60vmin;
-  width: 60vmin;
-  background-color: white;
-  box-sizing: border-box;
-  box-shadow: #aaa 0 0 10vmin;
-  border-radius: 0.5vmin;
-  padding: 0.5vmin;
-  display: flex;
 `;

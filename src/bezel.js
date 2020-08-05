@@ -5,6 +5,7 @@ import styled, {createGlobalStyle} from "styled-components/macro";
 import Settings from "settings";
 import Dictionary from "dictionary";
 import ViewDictionary from "view_dictionary";
+import Edit from "edit";
 import Game from "game";
 import store from "store";
 import stroke0 from "stroke0.woff";
@@ -26,6 +27,7 @@ const Bezel = () => {
       <Game/>
     </Frame>
     <ViewDictionary/>
+    <Edit/>
   </Provider>;
 };
 

@@ -45,7 +45,6 @@ const reducer = (state=undefined, action) => {
       draft.tiles[action.id] = action.data;
       return;
     case "VIEW":
-      log.info(action);
       draft.viewing = action.id;
       return;
     default:

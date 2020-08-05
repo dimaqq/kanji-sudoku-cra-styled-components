@@ -78,6 +78,8 @@ const st = {
 };
 
 const Canvase = styled.canvas`
-  flex: auto;
   cursor: crosshair;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 `;
