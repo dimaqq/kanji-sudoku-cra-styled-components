@@ -38,6 +38,7 @@ const Frame = styled.div`
 `;
 
 
+// FIXME unicode-range can be computed from kanji.json
 const LoadFonts = createGlobalStyle`
 @font-face {
   font-family: 'Kanji Stroke Order';
