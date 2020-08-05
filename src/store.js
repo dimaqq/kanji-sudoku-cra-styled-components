@@ -14,6 +14,7 @@ const INITIAL = {
   glyphs: [...new Array(9)],
   sudoku: [...new Array(9*9)],
   editing: undefined,
+  viewing: undefined,
   tiles: [...new Array(9*9)],  // either a single Kanji or a data URI
 };
 
@@ -42,6 +43,10 @@ const reducer = (state=undefined, action) => {
       return;
     case "SAVE_TILE":
       draft.tiles[action.id] = action.data;
+      return;
+    case "VIEW":
+      log.info(action);
+      draft.viewing = action.id;
       return;
     default:
       return;

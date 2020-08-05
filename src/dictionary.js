@@ -1,5 +1,5 @@
 import React from "react";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import styled from "styled-components/macro";
 import PropTypes from "prop-types";
 import reading from "reading.json";
@@ -13,9 +13,10 @@ const Dictionary = () => {
 export default Dictionary;
 
 const Entry = ({id}) => {
+  const dispatch = useDispatch();
   const kanji = useSelector(state => state.glyphs[id]);
   const {kun, on} = reading[kanji] || {};
-  return <Cell>
+  return <Cell onClick={() => dispatch({type: "VIEW", id})}>
     <Stroke>{kanji}</Stroke>
     <Reading>{kun}</Reading>
     <Reading>{on}</Reading>
