@@ -25,14 +25,14 @@ export default Game;
 const Cell = ({id}) => {
   // Either a single Kanji (prefilled cell, selected by computer),
   // or a data URI (empty cell edited by user) or undefined (not edited)
-  const value = useSelector(state => state.tiles[id]) || `https://placekitten.com/64/64`;
+  const value = useSelector(state => state.tiles[id]); // || "https://placekitten.com/64/64";
   const dispatch = useDispatch();
-  const editable = !value || value.length > 1;
+  const editable = false && (!value || value.length > 1);
   const edit = editable && (() => dispatch({type: "EDIT", id}));
   return <Nib onClick={edit}>{
     editable?
       <Img src={value} alt=""/>:
-      <Label>value</Label>
+      <Label>{value}{id}</Label>
   }</Nib>;
 };
 
@@ -42,6 +42,8 @@ const Area = styled.div`
   position: relative;
   flex: none;
   display: grid;
+  box-sizing: border-box;
+  border: .1vmin solid black;
   grid: repeat(9, 1fr) / repeat(9, 1fr);
   &::before {
     content: '';
@@ -59,14 +61,15 @@ const Area = styled.div`
 const Nib = styled.div`
   text-align: center;
   box-sizing: border-box;
-  border-top: 0.3vmin solid rgba(0,0,0,.3);
-  border-left: 0.3vmin solid rgba(0,0,0,.3);
-  &:nth-child(9n) { border-right: 0.3vmin solid black; }
-  &:nth-child(n+73) { border-bottom: 0.3vmin solid black; }
-  &:nth-child(3n+1) { border-left: 0.3vmin solid black; }
+  border: .1vmin solid gray;
+  &:nth-child(n+73) { border-bottom: .1vmin solid black; }
+  &:nth-child(3n+1) { border-left: .1vmin solid black; }
+  &:nth-child(3n) { border-right: .1vmin solid black; }
   &:nth-child(-n+9),
   &:nth-child(n+28):nth-child(-n+36),
-  &:nth-child(n+55):nth-child(-n+63) { border-top: 0.3vmin solid black; }
+  &:nth-child(n+55):nth-child(-n+63) { border-top: .1vmin solid black; }
+  &:nth-child(n+19):nth-child(-n+27),
+  &:nth-child(n+46):nth-child(-n+54) { border-bottom: .1vmin solid black; }
   display: flex;
 `;
 
@@ -74,6 +77,7 @@ const Img = styled.img`
   flex: auto;
   margin: auto;
   object-fit: fill;
+  max-width: 100%;
 `;
 
 const Label = styled.div`
