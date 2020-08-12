@@ -9,14 +9,13 @@ const Edit = () => {
   if (id === undefined) return null;
 
   const save = () => {
-    dispatch({type: "SAVE_TILE", id, data: "1"});
     dispatch({type: "EDIT"});
   };
 
   return <Glass onClick={save}>
     <Zoom onClick={e => e.stopPropagation()}>
       <Hack>
-        <Canvas/>
+        <Canvas id={id}/>
       </Hack>
     </Zoom>
   </Glass>;

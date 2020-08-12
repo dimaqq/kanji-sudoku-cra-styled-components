@@ -1,12 +1,15 @@
-import React, {useRef, useLayoutEffect} from "react";
+import React, {useRef, useEffect, useLayoutEffect} from "react";
+import PropTypes from "prop-types";
+import {useDispatch} from "react-redux";
 import styled from "styled-components/macro";
 import {filename} from "paths.macro";
 import ulog from "ulog";
 const log = ulog(filename);  // eslint-disable-line no-unused-vars
 const SIZE = 1000;
 
-const Canvas = () => {
+const Canvas = ({id}) => {
   const ref = useRef();
+  const dispatch = useDispatch();
 
   const down = event => {
     st.drawing = true;
@@ -18,6 +21,14 @@ const Canvas = () => {
     st.drawing = false;
     log.debug("up", event);
   };
+
+  useEffect(() => {
+    const canvas = ref.current;
+    return () => {
+      log.warn("FIXME", id, canvas.toDataURL().length);
+      dispatch({type: "SAVE_TILE", id, data: canvas.toDataURL()});
+    };
+  }, [ref, dispatch, id]);
 
   useLayoutEffect(() => {
     const canvas = ref.current;
@@ -48,6 +59,8 @@ const Canvas = () => {
 
 export default Canvas;
 
+Canvas.propTypes = {id: PropTypes.string.isRequired};
+
 const movezz = (event, ref) => {
   if (st.drawing) {
     let x, y;
@@ -62,8 +75,8 @@ const movezz = (event, ref) => {
     }
     const canvas = ref.current;
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "green";
-    ctx.fillRect(x, y, 3, 3);
+    ctx.fillStyle = "black";
+    ctx.fillRect(x, y, 30, 30);
     st.x = x;
     st.y = y;
   }

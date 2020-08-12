@@ -25,14 +25,14 @@ export default Game;
 const Cell = ({id}) => {
   // Either a single Kanji (prefilled cell, selected by computer),
   // or a data URI (empty cell edited by user) or undefined (not edited)
-  const value = useSelector(state => state.tiles[id]);
+  const glyph = useSelector(state => state.glyphs[state.sudoku[id]]);
+  const tile = useSelector(state => state.tiles[id]);
   const dispatch = useDispatch();
-  const editable = !value || value.length > 1;
-  const edit = editable && (() => dispatch({type: "EDIT", id}));
-  return <Nib onClick={edit}>{
-    editable?
-      <Img src={value} alt=""/>:
-      <Label>{value}{id}</Label>
+  const edit = glyph?undefined:() => dispatch({type: "EDIT", id});
+  return <Nib onClick={edit} editable={!!edit}>{
+    glyph?
+      <Label>{glyph}</Label>:
+      <Img src={tile} alt=""/>
   }</Nib>;
 };
 
@@ -60,6 +60,7 @@ const Area = styled.div`
 
 const Nib = styled.div`
   text-align: center;
+  cursor: ${ props => props.editable?"pointer":"default" };
   box-sizing: border-box;
   border: .1vmin solid gray;
   &:nth-child(n+73) { border-bottom: .1vmin solid black; }
@@ -83,4 +84,5 @@ const Img = styled.img`
 const Label = styled.div`
   flex: none;
   margin: auto;
+  font-size: 5vmin;
 `;
