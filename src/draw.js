@@ -1,6 +1,6 @@
 import React, {useRef, useEffect, useLayoutEffect} from "react";
 import PropTypes from "prop-types";
-import {useDispatch} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
 import styled from "styled-components/macro";
 import {filename} from "paths.macro";
 import ulog from "ulog";
@@ -10,14 +10,17 @@ const SIZE = 1000;
 const Canvas = ({id}) => {
   const ref = useRef();
   const dispatch = useDispatch();
+  const tile = useSelector(state => state.tiles[id]);
 
   const down = event => {
+    event.preventDefault();
     st.drawing = true;
     //st.x = event.offsetX * st.scale;
     //st.y = event.offsetY * st.scale;
     log.debug(event);
   };
   const up = event => {
+    event.preventDefault();
     st.drawing = false;
     log.debug("up", event);
   };
@@ -25,13 +28,23 @@ const Canvas = ({id}) => {
   useEffect(() => {
     const canvas = ref.current;
     return () => {
-      log.warn("FIXME", id, canvas.toDataURL().length);
       dispatch({type: "SAVE_TILE", id, data: canvas.toDataURL()});
     };
   }, [ref, dispatch, id]);
 
+  const erase = () => {
+    const canvas = ref.current;
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
+
   useLayoutEffect(() => {
     const canvas = ref.current;
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.src = tile;
+    ctx.drawImage(img, 0, 0);
+
     const move = e => movezz(e, ref);
     const r = canvas.getBoundingClientRect();
     st.scale = SIZE / r.width;
@@ -53,15 +66,19 @@ const Canvas = ({id}) => {
       }
       st.drawing = false;
     };
-  }, [ref]);
-  return <Canvase width={SIZE} height={SIZE} ref={ref}/>;
+  }, [ref, tile]);
+  return <>
+    <Canvase width={SIZE} height={SIZE} ref={ref}/>
+    <Button onClick={erase}>Erase</Button>
+  </>;
 };
 
 export default Canvas;
 
-Canvas.propTypes = {id: PropTypes.string.isRequired};
+Canvas.propTypes = {id: PropTypes.number.isRequired};
 
 const movezz = (event, ref) => {
+  event.preventDefault();
   if (st.drawing) {
     let x, y;
     if (event.touches) {
@@ -95,4 +112,10 @@ const Canvase = styled.canvas`
   position: absolute;
   width: 100%;
   height: 100%;
+`;
+
+const Button = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
