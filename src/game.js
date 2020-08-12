@@ -25,9 +25,9 @@ export default Game;
 const Cell = ({id}) => {
   // Either a single Kanji (prefilled cell, selected by computer),
   // or a data URI (empty cell edited by user) or undefined (not edited)
-  const value = useSelector(state => state.tiles[id]); // || "https://placekitten.com/64/64";
+  const value = useSelector(state => state.tiles[id]);
   const dispatch = useDispatch();
-  const editable = false && (!value || value.length > 1);
+  const editable = !value || value.length > 1;
   const edit = editable && (() => dispatch({type: "EDIT", id}));
   return <Nib onClick={edit}>{
     editable?

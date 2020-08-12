@@ -5,10 +5,15 @@ import Canvas from "draw";
 
 const Edit = () => {
   const dispatch = useDispatch();
-  const editing = useSelector(state => state.editing);
-  if (editing === undefined) return null;
+  const id = useSelector(state => state.editing);
+  if (id === undefined) return null;
 
-  return <Glass onClick={() => dispatch({type: "EDIT"})}>
+  const save = () => {
+    dispatch({type: "SAVE_TILE", id, data: "1"});
+    dispatch({type: "EDIT"});
+  };
+
+  return <Glass onClick={save}>
     <Zoom onClick={e => e.stopPropagation()}>
       <Hack>
         <Canvas/>
