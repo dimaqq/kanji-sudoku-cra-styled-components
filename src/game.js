@@ -79,6 +79,7 @@ const Img = styled.img`
   margin: auto;
   object-fit: fill;
   max-width: 100%;
+  max-height: 100%;
 `;
 
 const Label = styled.div`
