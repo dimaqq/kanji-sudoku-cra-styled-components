@@ -10,8 +10,6 @@ import ulog from "ulog";
 const log = ulog(filename);  // eslint-disable-line no-unused-vars
 const SIZE = 1000;
 
-//const foo = getStroke(stroke);  // FIXME
-
 const Canvas = ({id}) => {
   const ref = useRef();
   const dispatch = useDispatch();
@@ -70,21 +68,22 @@ const downzz = (event, ref) => {
   event.preventDefault();
   st.drawing = true;
   const ctx = ref.current.getContext("2d");
-  //const xevent = new event.constructor(event.type, event, {x, y});
-
   const stylusState = getStylusState(translate(event));
-  //st.foo = stroke.down({ctx, size: 10, color: "black"}, stylusState);
-  st.poo = getStroke(stroke).down({
-    stringLength: 100,
+  st.pull = getStroke(stroke).down({
+    stringLength: 50,
     targetConfig: {...defaultBrushConfig, ctx, size: 100, color: "red"},
   }, stylusState);
+};
+
+const normalise_pressure = p => {
+  return p<.5?.5:p;
 };
 
 const translate = src => {
   const dst = {};
   dst.x = src.offsetX * st.scale;
   dst.y = src.offsetY * st.scale;
-  dst.pressure = src.pressure;
+  dst.pressure = normalise_pressure(src.pressure);
   dst.tangentialPressure = src.tangentialPressure;
   dst.tiltX = src.tiltX;
   dst.tiltY = src.tiltY;
@@ -95,39 +94,22 @@ const translate = src => {
 const upzz = (event, ref) => {
   event.preventDefault();
   void(ref);
-  //st.foo.up(event);
-  st.poo.up(translate(event));
-  //st.foo = undefined;
-  st.poo = undefined;
+  st.pull.up(translate(event));
+  st.pull = undefined;
   st.drawing = false;
 };
 
-const movezz = (event, ref) => {
+const movezz = (event) => {
   event.preventDefault();
   if (st.drawing) {
-    const x = event.offsetX * st.scale;
-    const y = event.offsetY * st.scale;
-    const canvas = ref.current;
-    const ctx = canvas.getContext("2d");
-
-    ctx.fillStyle = "black";
-    ctx.fillRect(x, y, 30, 30);
-    st.x = x;
-    st.y = y;
-
-    //st.foo.move(event);
-    st.poo.move(translate(event));
+    st.pull.move(translate(event));
   }
 };
 
-
 const st = {
   drawing: false,
-  x: 0,
-  y: 0,
   scale: 1,
-  //foo: undefined,
-  poo: undefined,
+  pull: undefined,
 };
 
 const Canvase = styled.canvas`
