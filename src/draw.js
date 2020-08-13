@@ -70,48 +70,53 @@ const downzz = (event, ref) => {
   event.preventDefault();
   st.drawing = true;
   const ctx = ref.current.getContext("2d");
-  const stylusState = getStylusState(event);
-  st.foo = stroke.down({ctx, size: 10, color: "black"}, stylusState);
-  log.warn(defaultBrushConfig);
+  //const xevent = new event.constructor(event.type, event, {x, y});
+
+  const stylusState = getStylusState(translate(event));
+  //st.foo = stroke.down({ctx, size: 10, color: "black"}, stylusState);
   st.poo = getStroke(stroke).down({
-    stringLength: 30,
-    targetConfig: {...defaultBrushConfig, ctx, size: 30, color: "red"},
+    stringLength: 100,
+    targetConfig: {...defaultBrushConfig, ctx, size: 100, color: "red"},
   }, stylusState);
+};
+
+const translate = src => {
+  const dst = {};
+  dst.x = src.offsetX * st.scale;
+  dst.y = src.offsetY * st.scale;
+  dst.pressure = src.pressure;
+  dst.tangentialPressure = src.tangentialPressure;
+  dst.tiltX = src.tiltX;
+  dst.tiltY = src.tiltY;
+  dst.twist = src.twist;
+  return dst;
 };
 
 const upzz = (event, ref) => {
   event.preventDefault();
   void(ref);
-  st.foo.up(event);
-  st.poo.up(event);
-  st.foo = undefined;
+  //st.foo.up(event);
+  st.poo.up(translate(event));
+  //st.foo = undefined;
+  st.poo = undefined;
   st.drawing = false;
 };
 
 const movezz = (event, ref) => {
   event.preventDefault();
   if (st.drawing) {
-    let x, y;
-    if (event.touches) {
-      const t = event.touches[0];
-      x = (t.pageX - t.target.offsetLeft) * st.scale;
-      y = (t.pageY - t.target.offsetTop) * st.scale;
-    }
-    else {
-      x = event.offsetX * st.scale;
-      y = event.offsetY * st.scale;
-    }
+    const x = event.offsetX * st.scale;
+    const y = event.offsetY * st.scale;
     const canvas = ref.current;
     const ctx = canvas.getContext("2d");
-    //const state = getStylusState(event.nativeEvent);
 
     ctx.fillStyle = "black";
     ctx.fillRect(x, y, 30, 30);
     st.x = x;
     st.y = y;
 
-    st.foo.move(event);
-    st.poo.move(event);
+    //st.foo.move(event);
+    st.poo.move(translate(event));
   }
 };
 
@@ -121,7 +126,7 @@ const st = {
   x: 0,
   y: 0,
   scale: 1,
-  foo: undefined,
+  //foo: undefined,
   poo: undefined,
 };
 
