@@ -35,7 +35,6 @@ const reducer = (state=undefined, action) => {
       state.sudoku = new_sudoku(state.difficulty);
       state.tiles = erase_tiles();
     }
-    state.editing = 3;  // FIXME dev only
   }
   return produce(state, draft => {
     switch (action.type) {
