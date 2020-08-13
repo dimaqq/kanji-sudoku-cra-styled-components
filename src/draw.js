@@ -2,28 +2,23 @@ import React, {useRef, useEffect, useLayoutEffect} from "react";
 import PropTypes from "prop-types";
 import {useSelector, useDispatch} from "react-redux";
 import styled from "styled-components/macro";
+import {stroke, BrushStroke, defaultBrushConfig, BrushStrokeResult} from "croquis.js/lib/brush/simple";
+import {getStroke, PulledSrtingDrawingContext} from "croquis.js/lib/stabilizer/pulled-string";
+import {getStylusState} from "croquis.js/lib/stylus";
 import {filename} from "paths.macro";
 import ulog from "ulog";
 const log = ulog(filename);  // eslint-disable-line no-unused-vars
 const SIZE = 1000;
+
+//const foo = getStroke(stroke);  // FIXME
 
 const Canvas = ({id}) => {
   const ref = useRef();
   const dispatch = useDispatch();
   const tile = useSelector(state => state.tiles[id]);
 
-  const down = event => {
-    event.preventDefault();
-    st.drawing = true;
-    //st.x = event.offsetX * st.scale;
-    //st.y = event.offsetY * st.scale;
-    log.debug(event);
-  };
-  const up = event => {
-    event.preventDefault();
-    st.drawing = false;
-    log.debug("up", event);
-  };
+  const down = event => downzz(event, ref);
+  const up = event => upzz(event, ref);
 
   useEffect(() => {
     const canvas = ref.current;
@@ -48,21 +43,15 @@ const Canvas = ({id}) => {
     const move = e => movezz(e, ref);
     const r = canvas.getBoundingClientRect();
     st.scale = SIZE / r.width;
-    canvas.addEventListener("touchstart", down);
-    canvas.addEventListener("touchmove", move);
-    canvas.addEventListener("touchend", up);
-    canvas.addEventListener("mousedown", down);
-    canvas.addEventListener("mousemove", move);
-    canvas.addEventListener("mouseup", up);
+    canvas.addEventListener("pointerdown", down);
+    canvas.addEventListener("pointermove", move);
+    canvas.addEventListener("pointerup", up);
 
     return () => {
       if (canvas) {
-        canvas.removeEventListener("touchstart", down);
-        canvas.removeEventListener("touchmove", move);
-        canvas.removeEventListener("touchend", up);
-        canvas.removeEventListener("mousedown", down);
-        canvas.removeEventListener("mousemove", move);
-        canvas.removeEventListener("mouseup", up);
+        canvas.removeEventListener("pointerdown", down);
+        canvas.removeEventListener("pointermove", move);
+        canvas.removeEventListener("pointerup", up);
       }
       st.drawing = false;
     };
@@ -76,6 +65,21 @@ const Canvas = ({id}) => {
 export default Canvas;
 
 Canvas.propTypes = {id: PropTypes.number.isRequired};
+
+const downzz = (event, ref) => {
+  event.preventDefault();
+  st.drawing = true;
+  const ctx = ref.current.getContext("2d");
+  const stylusState = getStylusState(event);
+  st.foo = stroke.down({ctx, size: 10, color: "black"}, stylusState);
+};
+
+const upzz = (event, ref) => {
+  event.preventDefault();
+  st.foo.up(event);
+  st.foo = undefined;
+  st.drawing = false;
+};
 
 const movezz = (event, ref) => {
   event.preventDefault();
@@ -92,10 +96,14 @@ const movezz = (event, ref) => {
     }
     const canvas = ref.current;
     const ctx = canvas.getContext("2d");
+    //const state = getStylusState(event.nativeEvent);
+
     ctx.fillStyle = "black";
     ctx.fillRect(x, y, 30, 30);
     st.x = x;
     st.y = y;
+
+    st.foo.move(event);
   }
 };
 
@@ -105,6 +113,7 @@ const st = {
   x: 0,
   y: 0,
   scale: 1,
+  foo: undefined,
 };
 
 const Canvase = styled.canvas`
@@ -112,6 +121,7 @@ const Canvase = styled.canvas`
   position: absolute;
   width: 100%;
   height: 100%;
+  touch-action: none;
 `;
 
 const Button = styled.button`

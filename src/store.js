@@ -28,24 +28,27 @@ const reducer = (state=undefined, action) => {
     state.tiles = load_tiles();
     if (!state.grade || !state.difficulty || !state.glyphs || !state.sudoku || !state.tiles) {
       state.grade = "1";
+      localStorage.setItem("grade", state.grade);
       state.difficulty = "easy";
+      localStorage.setItem("difficulty", state.difficulty);
       state.glyphs = new_glyphs(state.grade);
       state.sudoku = new_sudoku(state.difficulty);
       state.tiles = erase_tiles();
     }
+    state.editing = 3;  // FIXME dev only
   }
   return produce(state, draft => {
     switch (action.type) {
     case "DIFFICULTY":
       draft.difficulty = action.difficulty;
-      localStorage.setItem("difficulty", action.difficulty);
+      localStorage.setItem("difficulty", draft.difficulty);
       draft.glyphs = new_glyphs(draft.grade);
       draft.sudoku = new_sudoku(draft.difficulty);
       draft.tiles = erase_tiles();
       return;
     case "GRADE":
       draft.grade = action.grade;
-      localStorage.setItem("grade", action.grade);
+      localStorage.setItem("grade", draft.grade);
       draft.glyphs = new_glyphs(draft.grade);
       draft.sudoku = new_sudoku(draft.difficulty);
       draft.tiles = erase_tiles();

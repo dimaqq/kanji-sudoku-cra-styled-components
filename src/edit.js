@@ -1,6 +1,6 @@
 import React from "react";
 import {useSelector, useDispatch} from "react-redux";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import Canvas from "draw";
 
 const Edit = () => {
@@ -36,8 +36,8 @@ const Glass = styled.div`
 
 const Zoom = styled.div`
   margin: auto;
-  height: 60vmin;
-  width: 60vmin;
+  height: 100vmin;
+  width: 100vmin;
   background-color: white;
   box-sizing: border-box;
   box-shadow: #aaa 0 0 10vmin;
