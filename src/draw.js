@@ -2,8 +2,8 @@ import React, {useRef, useEffect, useLayoutEffect} from "react";
 import PropTypes from "prop-types";
 import {useSelector, useDispatch} from "react-redux";
 import styled from "styled-components/macro";
-import {stroke, BrushStroke, defaultBrushConfig, BrushStrokeResult} from "croquis.js/lib/brush/simple";
-import {getStroke, PulledSrtingDrawingContext} from "croquis.js/lib/stabilizer/pulled-string";
+import {stroke, defaultBrushConfig} from "croquis.js/lib/brush/simple";
+import {getStroke} from "croquis.js/lib/stabilizer/pulled-string";
 import {getStylusState} from "croquis.js/lib/stylus";
 import {filename} from "paths.macro";
 import ulog from "ulog";
@@ -72,11 +72,18 @@ const downzz = (event, ref) => {
   const ctx = ref.current.getContext("2d");
   const stylusState = getStylusState(event);
   st.foo = stroke.down({ctx, size: 10, color: "black"}, stylusState);
+  log.warn(defaultBrushConfig);
+  st.poo = getStroke(stroke).down({
+    stringLength: 30,
+    targetConfig: {...defaultBrushConfig, ctx, size: 30, color: "red"},
+  }, stylusState);
 };
 
 const upzz = (event, ref) => {
   event.preventDefault();
+  void(ref);
   st.foo.up(event);
+  st.poo.up(event);
   st.foo = undefined;
   st.drawing = false;
 };
@@ -104,6 +111,7 @@ const movezz = (event, ref) => {
     st.y = y;
 
     st.foo.move(event);
+    st.poo.move(event);
   }
 };
 
@@ -114,6 +122,7 @@ const st = {
   y: 0,
   scale: 1,
   foo: undefined,
+  poo: undefined,
 };
 
 const Canvase = styled.canvas`
