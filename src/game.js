@@ -32,7 +32,7 @@ const Cell = ({id}) => {
   return <Nib onClick={edit} editable={!!edit}>{
     glyph?
       <Label>{glyph}</Label>:
-      <Img src={tile} alt=""/>
+      <Fix><Img src={tile} alt=""/></Fix>
   }</Nib>;
 };
 
@@ -75,11 +75,14 @@ const Nib = styled.div`
 `;
 
 const Img = styled.img`
-  flex: auto;
-  margin: auto;
+  position: relative;
+  width: 100%;
+  height: 100%;
   object-fit: fill;
-  max-width: 100%;
-  max-height: 100%;
+`;
+
+// Because Safari 😭
+const Fix = styled.div`
 `;
 
 const Label = styled.div`
