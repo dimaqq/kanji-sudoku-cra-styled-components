@@ -31,7 +31,7 @@
   "dependencies": {
     "chokidar": "^3.4.0",
     "croquis.js": "^0.0.3",
-    "immer": "^7.0.5",
+    "immer": "^8.0.1",
     "in-browser-language": "^1.0.3",
     "paths.macro": "^3.0.0",
     "react": "^16.13.1",
