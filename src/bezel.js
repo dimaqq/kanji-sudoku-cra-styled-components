@@ -29,6 +29,7 @@ const Bezel = () => {
     <ViewDictionary/>
     <Edit/>
     <img src="https://dimaqq.goatcounter.com/count?p=kanji-sudoku-mobile"/>
+    <img src="https://static.scarf.sh/a.png?x-pxid=45808efa-53ba-4c91-9980-be08d2a83598"/>
   </Provider>;
 };
 
