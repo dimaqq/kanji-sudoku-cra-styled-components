@@ -55,7 +55,7 @@
     "react-dev-utils": "^11.0.4",
     "react-scripts": "^4.0.3",
     "styled-reset": "^4.2.0",
-    "stylelint": "^13.6.1",
+    "stylelint": "^15.10.1",
     "stylelint-config-recommended": "^5.0.0",
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.10.0",
